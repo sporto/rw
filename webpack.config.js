@@ -3,10 +3,10 @@ var path = require("path");
 module.exports = {
 	context: __dirname,
 	entry: {
-		main:       "./client/main.js"
+		app:       "./client/app.jsx"
 	},
 	output: {
-		path: path.join(__dirname, 'app', 'assets', 'javascripts'),
+		path: path.join(__dirname, 'public', 'js'),
 		filename: "[name].js",
 		publicPath: "/js/"
 	},

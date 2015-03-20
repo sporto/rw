@@ -38,5 +38,5 @@ app.configure(feathers.rest())
   .configure(feathers.socketio())
   .use(bodyParser.json())
   .use('/todos', todoService)
-  .use('/', feathers.static(__dirname))
+  .use('/', feathers.static(__dirname + '/public'))
   .listen(3000);

@@ -1,6 +1,6 @@
 module.exports = {
   // The current id counter
-  id: 0,
+  id: 1,
   // An array with all todos
   todos: [],
 
