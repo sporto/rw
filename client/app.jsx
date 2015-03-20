@@ -53,7 +53,7 @@ var RobotList = React.createClass({
 	},
 	render: function() {
 		var robots = this.props.robots.map(function (robot) {
-			return <Robot robot={robot} />
+			return <Robot key={robot.id} robot={robot} />
 		});
 		return (
 			<div>
@@ -98,25 +98,24 @@ React.render(
 // Connect to SocketIO on the same host
 var socket = io.connect();
 
-socket.on('todos created', function(todo) {
-	console.log('Someone created a new Todo', todo);
-	// onChanged.dispatch(todo);
-	robotStore.add(todo);
+socket.on('robots created', function(robot) {
+	console.log('Someone created a new Robot', robot);
+	robotStore.add(robot);
 });
 
-socket.on('todos updated', function(todo) {
-  console.log('Someone updated a Todo', todo);
+socket.on('robots updated', function(robot) {
+  console.log('Someone updated a Robot', robot);
 });
 
-socket.on('todos patched', function(todo) {
-  console.log('Someone patched', todo);
+socket.on('robots patched', function(robot) {
+  console.log('Someone patched', robot);
 });
 
-socket.emit('todos::create', {
+socket.emit('robots::create', {
   label: 'AA'
-}, {}, function(error, todo) {
-  socket.emit('todos::find', {}, function(error, todos) {
-    console.log('Todos from server:', todos);
-    robotStore.replace(todos);
+}, {}, function(error, robot) {
+  socket.emit('robots::find', {}, function(error, robots) {
+    console.log('Robots from server', robots);
+    if (robots) robotStore.replace(robots);
   });
 });

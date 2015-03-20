@@ -28,15 +28,14 @@
 //   });
 // });
 
-var feathers   = require('feathers');
-var bodyParser = require('body-parser');
-
-var app = feathers();
-var todoService = require('./todos');
+var feathers      = require('feathers');
+var bodyParser    = require('body-parser');
+var app           = feathers();
+var robotHandlers = require('./server/handlers/robots');
 
 app.configure(feathers.rest())
   .configure(feathers.socketio())
   .use(bodyParser.json())
-  .use('/todos', todoService)
+  .use('/robots', robotHandlers)
   .use('/', feathers.static(__dirname + '/public'))
   .listen(3000);
