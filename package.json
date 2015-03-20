@@ -1,0 +1,29 @@
+{
+  "name": "rethink-changes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "feathers": "^1.0.2",
+    "rethinkdb": "^1.16.2"
+  },
+   "devDependencies": {
+    "css-loader": "^0.6.12",
+    "expose-loader": "^0.5.3",
+    "file-loader": "^0.5.1",
+    "imports-loader": "^0.6.3",
+    "jsx-loader": "^0.12.2",
+    "less": "^1.7.0",
+    "less-loader": "^0.7.5",
+    "raw-loader": "^0.5.1",
+    "script-loader": "^0.5.2",
+    "style-loader": "^0.6.4",
+    "url-loader": "^0.5.5"
+  }
+}
