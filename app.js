@@ -1,41 +1,32 @@
-// var r = require('rethinkdb');
+var express  = require('express')
+var app      = express();
+var server   = require('http').Server(app);
+var io       = require('socket.io')(server);
+var gameloop = require('node-gameloop');
 
-// r.connect({ host: 'localhost', port: 28015 }, function(err, conn) {
-//   if(err) throw err;
+app.use(express.static('public'));
 
-//   // r.db('test1').tableCreate('robots').run(conn, function(err, res) {
-//   //   if(err) throw err;
-//   //   console.log(res);
-    
-//   //   r.table('robots').insert({ name: 'Rotty' }).run(conn, function(err, res)
-//   //   {
-//   //     if(err) throw err;
-//   //     console.log(res);
-//   //   });
-//   // });
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/public/index.html');
+});
+
+// game loop
+// start the loop at 5 fps (1000/30ms per frame) and grab its id 
+var frameCount = 0;
+var id = gameloop.setGameLoop(function(delta) {
+	// `delta` is the delta time from the last frame 
+	console.log('Hi there! (frame=%s, delta=%s)', frameCount++, delta);
+	io.sockets.emit('refresh', {state: frameCount})
+}, 1000 / 5);
 
 
-//    // r.db('test1').table('robots').insert({ name: 'Rotty' }).run(conn, function(err, res)
-//    //  {
-//    //    if(err) throw err;
-//    //    console.log(res);
-//    //  });
+io.on('connection', function (socket) {
+	console.log('connection')
+	// create a robot for this user
+	socket.emit('news', { hello: 'world' });
+	socket.on('my other event', function (data) {
+		console.log(data);
+	});
+});
 
-//   //changes
-
-//   r.db('test1').table('robots').changes().run(conn, function(err, cursor) {
-//     cursor.each(console.log);
-//   });
-// });
-
-var feathers      = require('feathers');
-var bodyParser    = require('body-parser');
-var app           = feathers();
-var robotHandlers = require('./server/handlers/robots');
-
-app.configure(feathers.rest())
-  .configure(feathers.socketio())
-  .use(bodyParser.json())
-  .use('/robots', robotHandlers)
-  .use('/', feathers.static(__dirname + '/public'))
-  .listen(3000);
+server.listen(3000);
